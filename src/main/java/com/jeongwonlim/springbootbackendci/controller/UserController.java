@@ -2,24 +2,43 @@ package com.jeongwonlim.springbootbackendci.controller;
 
 import com.jeongwonlim.springbootbackendci.model.User;
 import com.jeongwonlim.springbootbackendci.service.UserService;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
+@RequestMapping("/users")
 public class UserController {
 
     private final UserService userService;
 
-    // 생성자 주입
     public UserController(UserService userService) {
         this.userService = userService;
     }
 
-    // GET /users
-    @GetMapping("/users")
-    public List<User> getUsers() {
+    @GetMapping
+    public List<User> getAllUsers() {
         return userService.getAllUsers();
+    }
+
+    @GetMapping("/{id}")
+    public User getUser(@PathVariable Long id) {
+        return userService.getUser(id);
+    }
+
+    @PostMapping
+    public User createUser(@RequestBody User user) {
+        return userService.createUser(user);
+    }
+
+    @PutMapping("/{id}")
+    public User updateUser(@PathVariable Long id,
+                           @RequestBody User user) {
+        return userService.updateUser(id, user);
+    }
+
+    @DeleteMapping("/{id}")
+    public void deleteUser(@PathVariable Long id) {
+        userService.deleteUser(id);
     }
 }
